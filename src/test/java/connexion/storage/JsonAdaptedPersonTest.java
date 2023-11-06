@@ -208,7 +208,7 @@ public class JsonAdaptedPersonTest {
     }
 
     @Test
-    public void toModelType_blankScheduleName_notBlankSchedule_throwsIllegalValueException() {
+    public void toModelType_blankScheduleNameNotBlankSchedule_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
                         VALID_EMAIL, VALID_COMPANY, VALID_JOB, VALID_TAGS, VALID_MARK_STATUS,
@@ -218,7 +218,7 @@ public class JsonAdaptedPersonTest {
     }
 
     @Test
-    public void toModelType_blankSchedule_notBlankScheduleName_throwsIllegalValueException() {
+    public void toModelType_blankScheduleNotBlankScheduleName_throwsIllegalValueException() {
         JsonAdaptedPerson person =
                 new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
                         VALID_EMAIL, VALID_COMPANY, VALID_JOB, VALID_TAGS, VALID_MARK_STATUS,
