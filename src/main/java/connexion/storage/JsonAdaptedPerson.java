@@ -163,24 +163,32 @@ class JsonAdaptedPerson {
                     Schedule.class.getSimpleName()));
         }
 
-        // Checks the string if it is a valid schedule time. If string is empty, do not throw error
-        if (!Schedule.isValidScheduleTime(schedule) && !schedule.isEmpty()) {
-            throw new IllegalValueException(Schedule.MESSAGE_CONSTRAINTS);
-        }
-
-        final Optional<Schedule> modelSchedule = Optional.ofNullable(schedule)
-                .filter(sch -> !sch.isEmpty())
-                .map(Schedule::new);
-
         if (scheduleName == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     ScheduleName.class.getSimpleName()));
+        }
+
+        // Checks the string if it is a valid schedule time. If string is empty, do not throw error
+        if (!Schedule.isValidScheduleTime(schedule) && !schedule.isEmpty()) {
+            throw new IllegalValueException(Schedule.MESSAGE_CONSTRAINTS);
         }
 
         // Checks the string if it is a valid schedule name. If string is empty, do not throw error
         if (!ScheduleName.isValidScheduleName(scheduleName) && !scheduleName.isEmpty()) {
             throw new IllegalValueException(ScheduleName.MESSAGE_CONSTRAINTS);
         }
+
+        if (scheduleName.isEmpty() && !schedule.isEmpty()) {
+            throw new IllegalValueException(Schedule.MESSAGE_NO_SCHEDULE_NAME);
+        }
+
+        if (!scheduleName.isEmpty() && schedule.isEmpty()) {
+            throw new IllegalValueException(ScheduleName.MESSAGE_NO_SCHEDULE);
+        }
+
+        final Optional<Schedule> modelSchedule = Optional.ofNullable(schedule)
+                .filter(sch -> !sch.isEmpty())
+                .map(Schedule::new);
 
         final Optional<ScheduleName> modelScheduleName = Optional.ofNullable(scheduleName)
                 .filter(sch -> !sch.isEmpty())

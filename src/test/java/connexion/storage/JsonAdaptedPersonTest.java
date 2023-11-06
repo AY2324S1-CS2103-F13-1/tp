@@ -25,6 +25,8 @@ import connexion.model.person.Schedule;
 import connexion.model.person.ScheduleName;
 
 public class JsonAdaptedPersonTest {
+    private static final String BLANK_SCHEDULE = "";
+    private static final String BLANK_SCHEDULE_NAME = "";
     private static final String INVALID_NAME = "R@chel";
     private static final String INVALID_PHONE = "+651234";
     private static final String INVALID_COMPANY = " ";
@@ -202,6 +204,26 @@ public class JsonAdaptedPersonTest {
                         VALID_EMAIL, VALID_COMPANY, VALID_JOB, VALID_TAGS, VALID_MARK_STATUS,
                         VALID_SCHEDULE, INVALID_SCHEDULE_NAME, VALID_LAST_MODIFIED_DATE_TIME, VALID_NOTE);
         String expectedMessage = ScheduleName.MESSAGE_CONSTRAINTS;
+        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_blankScheduleName_notBlankSchedule_throwsIllegalValueException() {
+        JsonAdaptedPerson person =
+                new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
+                        VALID_EMAIL, VALID_COMPANY, VALID_JOB, VALID_TAGS, VALID_MARK_STATUS,
+                        VALID_SCHEDULE, BLANK_SCHEDULE_NAME, VALID_LAST_MODIFIED_DATE_TIME, VALID_NOTE);
+        String expectedMessage = Schedule.MESSAGE_NO_SCHEDULE_NAME;
+        assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
+    }
+
+    @Test
+    public void toModelType_blankSchedule_notBlankScheduleName_throwsIllegalValueException() {
+        JsonAdaptedPerson person =
+                new JsonAdaptedPerson(VALID_NAME, VALID_PHONE,
+                        VALID_EMAIL, VALID_COMPANY, VALID_JOB, VALID_TAGS, VALID_MARK_STATUS,
+                        BLANK_SCHEDULE, VALID_SCHEDULE_NAME, VALID_LAST_MODIFIED_DATE_TIME, VALID_NOTE);
+        String expectedMessage = ScheduleName.MESSAGE_NO_SCHEDULE;
         assertThrows(IllegalValueException.class, expectedMessage, person::toModelType);
     }
 
