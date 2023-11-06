@@ -58,7 +58,7 @@ class JsonAdaptedPerson {
         this.phone = phone;
         this.email = email;
         this.company = company;
-        this.job = job;
+        this.job = job.trim();
         if (tags != null) {
             this.tags.addAll(tags);
         }
