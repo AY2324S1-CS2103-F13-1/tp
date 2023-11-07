@@ -182,6 +182,7 @@ Format: `schedule INDEX i/SCHEDULE_TIME [a/SCHEDULE_NAME]`
 * Schedule name is an optional field. If no schedule name is given, the default is `Meeting`.
 * Input schedule time must be in the format `YYYY-MM-DD-HH-mm`, and must be valid.
 * If there are existing schedules or schedule names, it will be updated to the input schedule and schedule name. If schedule name is not given, it will still be set to `Meeting`.
+* Only 1 schedule per person is allowed.
 
 Examples:
 *  `schedule 1 i/2023-12-07-13-45` edits or adds the 1st person's schedule time and name, where the schedule time is `7 Dec 2023, 13:45:00`, and the schedule name is the default name, `Meeting`.
