@@ -54,19 +54,19 @@ class JsonAdaptedPerson {
             @JsonProperty("mark") String mark, @JsonProperty("schedule") String schedule,
             @JsonProperty("scheduleName") String scheduleName,
             @JsonProperty("last_modified") String lastModifiedDateTime, @JsonProperty("note") String note) {
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        this.company = company;
+        this.name = name.trim();
+        this.phone = phone.trim();
+        this.email = email.trim();
+        this.company = company.trim();
         this.job = job.trim();
         if (tags != null) {
             this.tags.addAll(tags);
         }
-        this.scheduleName = scheduleName;
+        this.scheduleName = scheduleName.trim();
         this.schedule = schedule;
         this.mark = mark;
         this.lastModifiedDateTime = lastModifiedDateTime;
-        this.note = note;
+        this.note = note.trim();
     }
 
     /**
