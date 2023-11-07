@@ -54,19 +54,19 @@ class JsonAdaptedPerson {
             @JsonProperty("mark") String mark, @JsonProperty("schedule") String schedule,
             @JsonProperty("scheduleName") String scheduleName,
             @JsonProperty("last_modified") String lastModifiedDateTime, @JsonProperty("note") String note) {
-        this.name = name.trim();
-        this.phone = phone.trim();
-        this.email = email.trim();
-        this.company = company.trim();
-        this.job = job.trim();
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.company = company;
+        this.job = job;
         if (tags != null) {
             this.tags.addAll(tags);
         }
-        this.scheduleName = scheduleName.trim();
+        this.scheduleName = scheduleName;
         this.schedule = schedule;
         this.mark = mark;
         this.lastModifiedDateTime = lastModifiedDateTime;
-        this.note = note.trim();
+        this.note = note;
     }
 
     /**
@@ -102,59 +102,66 @@ class JsonAdaptedPerson {
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
         }
-        if (!Name.isValidName(name)) {
+        String trimmedName = name.trim();
+        if (!Name.isValidName(trimmedName)) {
             throw new IllegalValueException(Name.MESSAGE_CONSTRAINTS);
         }
-        final Name modelName = new Name(name);
+        final Name modelName = new Name(trimmedName);
 
         if (phone == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Phone.class.getSimpleName()));
         }
-        if (!Phone.isValidPhone(phone)) {
+        String trimmedPhone = phone.trim();
+        if (!Phone.isValidPhone(trimmedPhone)) {
             throw new IllegalValueException(Phone.MESSAGE_CONSTRAINTS);
         }
-        final Phone modelPhone = new Phone(phone);
+        final Phone modelPhone = new Phone(trimmedPhone);
 
         if (email == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Email.class.getSimpleName()));
         }
-        if (!Email.isValidEmail(email)) {
+        String trimmedEmail = email.trim();
+        if (!Email.isValidEmail(trimmedEmail)) {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
         }
-        final Email modelEmail = new Email(email);
+        final Email modelEmail = new Email(trimmedEmail);
 
         if (company == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Company.class.getSimpleName()));
         }
-        if (!Company.isValidCompany(company)) {
+        String trimmedCompany = company.trim();
+        if (!Company.isValidCompany(trimmedCompany)) {
             throw new IllegalValueException(Company.MESSAGE_CONSTRAINTS);
         }
-        final Company modelCompany = new Company(company);
+        final Company modelCompany = new Company(trimmedCompany);
 
         if (job == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Job.class.getSimpleName()));
         }
-        if (!Job.isValidJob(job)) {
+        String trimmedJob = job.trim();
+        if (!Job.isValidJob(trimmedJob)) {
             throw new IllegalValueException(Job.MESSAGE_CONSTRAINTS);
         }
-        final Job modelJob = new Job(job);
+        final Job modelJob = new Job(trimmedJob);
 
         if (mark == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     Mark.class.getSimpleName()));
         }
+        String trimmedMark = mark.trim();
 
-        if (!Mark.isValidMark(mark)) {
+        if (!Mark.isValidMark(trimmedMark)) {
             throw new IllegalValueException(Mark.MESSAGE_CONSTRAINTS);
         }
 
-        final Mark markStatus = Mark.fromString(mark);
+        final Mark markStatus = Mark.fromString(trimmedMark);
 
         if (lastModifiedDateTime == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
                     LastModifiedDateTime.class.getSimpleName()));
         }
-        if (!LastModifiedDateTime.isValidLastModifiedDateTime(lastModifiedDateTime)) {
+        String trimmedLastModifiedDateTime = lastModifiedDateTime.trim();
+        if (!LastModifiedDateTime.isValidLastModifiedDateTime(trimmedLastModifiedDateTime)) {
             throw new IllegalValueException(LastModifiedDateTime.MESSAGE_CONSTRAINTS);
         }
 
@@ -168,34 +175,37 @@ class JsonAdaptedPerson {
                     ScheduleName.class.getSimpleName()));
         }
 
+        String trimmedSchedule = schedule.trim();
+        String trimmedScheduleName = scheduleName.trim();
+
         // Checks the string if it is a valid schedule time. If string is empty, do not throw error
-        if (!Schedule.isValidScheduleTime(schedule) && !schedule.isEmpty()) {
+        if (!Schedule.isValidScheduleTime(trimmedSchedule) && !trimmedSchedule.isEmpty()) {
             throw new IllegalValueException(Schedule.MESSAGE_CONSTRAINTS);
         }
 
-        // Checks the string if it is a valid schedule name. If string is empty, do not throw error
-        if (!ScheduleName.isValidScheduleName(scheduleName) && !scheduleName.isEmpty()) {
+        // Checks the string if it is a valid trimmedSchedule name. If string is empty, do not throw error
+        if (!ScheduleName.isValidScheduleName(trimmedScheduleName) && !trimmedScheduleName.isEmpty()) {
             throw new IllegalValueException(ScheduleName.MESSAGE_CONSTRAINTS);
         }
 
-        if (scheduleName.isEmpty() && !schedule.isEmpty()) {
+        if (trimmedScheduleName.isEmpty() && !trimmedSchedule.isEmpty()) {
             throw new IllegalValueException(Schedule.MESSAGE_NO_SCHEDULE_NAME);
         }
 
-        if (!scheduleName.isEmpty() && schedule.isEmpty()) {
+        if (!trimmedScheduleName.isEmpty() && trimmedSchedule.isEmpty()) {
             throw new IllegalValueException(ScheduleName.MESSAGE_NO_SCHEDULE);
         }
 
-        final Optional<Schedule> modelSchedule = Optional.ofNullable(schedule)
+        final Optional<Schedule> modelSchedule = Optional.ofNullable(trimmedSchedule)
                 .filter(sch -> !sch.isEmpty())
                 .map(Schedule::new);
 
-        final Optional<ScheduleName> modelScheduleName = Optional.ofNullable(scheduleName)
+        final Optional<ScheduleName> modelScheduleName = Optional.ofNullable(trimmedScheduleName)
                 .filter(sch -> !sch.isEmpty())
                 .map(ScheduleName::new);
 
         final LastModifiedDateTime lastModified =
-                LastModifiedDateTime.fromString(lastModifiedDateTime);
+                LastModifiedDateTime.fromString(trimmedLastModifiedDateTime);
 
         final Set<Tag> modelTags = new HashSet<>(personTags);
 
@@ -204,12 +214,14 @@ class JsonAdaptedPerson {
                     Note.class.getSimpleName()));
         }
 
-        if (!Note.isValidNote(note)) {
+        String trimmedNote = note.trim();
+
+        if (!Note.isValidNote(trimmedNote)) {
             throw new IllegalValueException(Note.MESSAGE_CONSTRAINTS);
-        } else if (!Note.hasValidLength(note)) {
+        } else if (!Note.hasValidLength(trimmedNote)) {
             throw new IllegalValueException(Note.MESSAGE_CONSTRAINTS_CHARACTER_LIMIT);
         }
-        final Note modelNote = new Note(note);
+        final Note modelNote = new Note(trimmedNote);
 
         Person newPerson = new Person(
                 modelName, modelPhone, modelEmail, modelCompany, modelJob, markStatus,
