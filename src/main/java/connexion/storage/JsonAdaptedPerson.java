@@ -183,7 +183,7 @@ class JsonAdaptedPerson {
             throw new IllegalValueException(Schedule.MESSAGE_CONSTRAINTS);
         }
 
-        // Checks the string if it is a valid trimmedSchedule name. If string is empty, do not throw error
+        // Checks the string if it is a valid schedule name. If string is empty, do not throw error
         if (!ScheduleName.isValidScheduleName(trimmedScheduleName) && !trimmedScheduleName.isEmpty()) {
             throw new IllegalValueException(ScheduleName.MESSAGE_CONSTRAINTS);
         }
