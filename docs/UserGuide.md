@@ -149,7 +149,6 @@ Un-marks a contact of interest.
 Format: `unmark INDEX`
 
 * Un-marks the person at the specified `INDEX`, which is shown by a yellow hollow star.
-* Marks the contact at the specified `INDEX`, which is shown by a yellow hollow star.
 * The index refers to the index number shown in the displayed contact list.
 * The index **must be a positive integer** starting from 1.
 * When a new contact is created, the contact is un-marked by default.
@@ -198,9 +197,8 @@ Format: `schedule INDEX i/SCHEDULE_TIME [a/SCHEDULE_NAME]`
 * Schedule times that are past today's date are allowed to be entered.
 * If there are existing schedules or schedule names, it will be updated to the input schedule and schedule name. If schedule name is not given, it will still be set to `Meeting`.
 * Only 1 schedule per person is allowed.
-* If there is no schedule but there is a schedule name and vice versa, the json file will not load.
+
 * Updates the last modified time of the given person to the current time when executed.
-* Updates the last modified time of the given contact to the current time when executed.
 
 Examples:
 *  `schedule 1 i/2023-12-07-13-45` edits or adds the 1st contact's schedule time and name, where the schedule time is `7 Dec 2023, 13:45:00`, and the schedule name is the default name, `Meeting`.
@@ -282,6 +280,8 @@ Format: `exit`
 ## Known issues
 
 1. When using multiple screens, if you move the application to a secondary screen, and later switch to using only the primary screen, the GUI will open off-screen. The remedy is to delete the preferences.json file created by the application before running the application again.
+2. If there is no schedule value found in the json file, but there is a schedule name value found or vice versa, the json file will not be loaded.
+3. If there are leading or trailing whitespaces in the values in the json file, the json file will still be able to load, and the leading and trailing whitespaces will not be reflected in the UI. 
 
 --------------------------------------------------------------------------------------------------------------------
 
